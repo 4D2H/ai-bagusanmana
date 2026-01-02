@@ -41,14 +41,6 @@ jobs:
           chmod +x .github/pipeline-scripts/bump_version.sh
           ./.github/pipeline-scripts/bump_version.sh
 
-      # Create GitHub Release (changelog)
-      - name: Create release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          NEW_TAG=${{ steps.update_version.outputs.new_tag }}
-          gh release create $NEW_TAG --generate-notes --title "Release $NEW_TAG"
-
       # Login Dockerhub
       - name: Login to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
@@ -71,6 +63,14 @@ jobs:
           # Push image
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/bagusanmana:$VERSION
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/bagusanmana:latest
+
+      # Create GitHub Release (changelog)
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEW_TAG=${{ steps.update_version.outputs.new_tag }}
+          gh release create $NEW_TAG --generate-notes --title "Release $NEW_TAG"
 
       # Commit & Tag
       - name: Push new version
