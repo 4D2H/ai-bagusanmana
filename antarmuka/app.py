@@ -17,11 +17,7 @@ st.title("🖼️ Image Comparator")
 st.markdown("Upload at least 2 images to compare using AI")
 
 # API endpoint
-API_URL = st.sidebar.text_input(
-    "API URL",
-    value=os.getenv("COMPARE_ENDPOINT"),
-    help="API endpoint URL for image comparison"
-)
+API_URL = os.getenv("COMPARE_ENDPOINT")
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### How to Use")
